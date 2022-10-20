@@ -92,27 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ]),
                           ),
                           const SizedBox(height: 20),
-                          isRegister
-                              ? Padding(
-                                  padding: const EdgeInsets.only(bottom: 20),
-                                  child: TextFormField(
-                                    controller: _confirmPasswordEC,
-                                    obscureText: true,
-                                    decoration: const InputDecoration(
-                                      label: Text('Confirma Senha'),
-                                    ),
-                                    validator: Validatorless.multiple(
-                                      [
-                                        Validatorless.required('Obrigatório'),
-                                        Validatorless.min(6,
-                                            'Senha deve conter pelo menos 6 caracteres'),
-                                        Validatorless.compare(_passwordEC,
-                                            'As senhas devem ser iguais')
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: context.colors.secondary,
