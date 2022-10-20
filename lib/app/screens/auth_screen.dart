@@ -1,5 +1,6 @@
 import 'package:bemol_test/app/core/ui/styles/colors_app.dart';
 import 'package:bemol_test/app/core/ui/styles/text_styles.dart';
+import 'package:bemol_test/app/services/auth_service.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
@@ -16,6 +17,8 @@ class _AuthScreenState extends State<AuthScreen> {
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
   bool isRegister = false;
+
+  final _auth = AuthService.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +108,20 @@ class _AuthScreenState extends State<AuthScreen> {
                                 fontSize: 16,
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (isRegister) {
+                                _auth.register(_emailEC.text, _passwordEC.text);
+                                setState(() {
+                                  isRegister = false;
+                                });
+                              } else {
+                                _auth.login(_emailEC.text, _passwordEC.text);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/home',
+                                  (route) => false,
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),

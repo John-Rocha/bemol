@@ -1,5 +1,6 @@
 import 'package:bemol_test/app/core/ui/styles/colors_app.dart';
 import 'package:bemol_test/app/core/ui/styles/text_styles.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -22,9 +23,20 @@ class SplashScreen extends StatelessWidget {
                   backgroundColor: context.colors.secondary,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/login',
-                    (route) => false,
+                  FirebaseAuth.instance.authStateChanges().listen(
+                    (User? user) {
+                      if (user != null) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/home',
+                          (route) => false,
+                        );
+                      } else {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/login',
+                          (route) => false,
+                        );
+                      }
+                    },
                   );
                 },
                 child: Text(

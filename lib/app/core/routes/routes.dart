@@ -16,7 +16,7 @@ class Routes {
     return {
       '/': (context) => const SplashScreen(),
       '/login': (context) => const AuthScreen(),
-      '/home': (context) => const HomeScreen(),
+      '/home': (context) => HomeScreen(),
     };
   }
 }
