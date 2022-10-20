@@ -1,6 +1,7 @@
 import 'package:bemol_test/app/screens/home_screen.dart';
 import 'package:bemol_test/app/screens/login_screen.dart';
 import 'package:bemol_test/app/screens/splash_screen.dart';
+import 'package:bemol_test/app/ui/theme_config.dart';
 import 'package:flutter/material.dart';
 
 class BemolApp extends StatelessWidget {
@@ -13,11 +14,11 @@ class BemolApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/spalsh': (context) => const SplashScreen(),
+        '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
       },
-      theme: null,
+      theme: ThemeConfig.theme,
     );
   }
 }
