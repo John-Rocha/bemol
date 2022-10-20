@@ -1,3 +1,4 @@
+import 'package:bemol_test/app/screens/form_screen.dart';
 import 'package:bemol_test/app/screens/home_screen.dart';
 import 'package:bemol_test/app/screens/auth_screen.dart';
 import 'package:bemol_test/app/screens/splash_screen.dart';
@@ -17,6 +18,7 @@ class Routes {
       '/': (context) => const SplashScreen(),
       '/login': (context) => const AuthScreen(),
       '/home': (context) => HomeScreen(),
+      '/form': (context) => const FormScreen(),
     };
   }
 }

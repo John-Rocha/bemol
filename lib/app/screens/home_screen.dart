@@ -1,3 +1,4 @@
+import 'package:bemol_test/app/core/ui/styles/colors_app.dart';
 import 'package:bemol_test/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.colors.primary,
       appBar: AppBar(
         title: const Text('Home'),
         actions: [
@@ -20,13 +22,17 @@ class HomeScreen extends StatelessWidget {
                 (route) => false,
               );
             },
-            icon: const Icon(
-              Icons.logout,
-            ),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
       body: Container(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed('/form');
+        },
+        child: const Icon(Icons.person_add),
+      ),
     );
   }
 }
