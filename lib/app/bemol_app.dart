@@ -1,4 +1,4 @@
-import 'package:bemol_test/app/core/ui/routes/routes.dart';
+import 'package:bemol_test/app/core/routes/routes.dart';
 import 'package:bemol_test/app/core/ui/theme/theme_config.dart';
 import 'package:flutter/material.dart';
 
