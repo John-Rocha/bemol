@@ -4,12 +4,19 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
+  final _confirmPasswordEC = TextEditingController();
+  bool isRegister = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +54,15 @@ class LoginScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Center(
-                            child: Text(
-                              'Login',
-                              style: context.textStyles.titleWhite,
-                            ),
+                            child: !isRegister
+                                ? Text(
+                                    'Login',
+                                    style: context.textStyles.titleWhite,
+                                  )
+                                : Text(
+                                    'Registrar',
+                                    style: context.textStyles.titleWhite,
+                                  ),
                           ),
                           TextFormField(
                             controller: _emailEC,
@@ -80,6 +92,27 @@ class LoginScreen extends StatelessWidget {
                             ]),
                           ),
                           const SizedBox(height: 20),
+                          isRegister
+                              ? Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: TextFormField(
+                                    controller: _confirmPasswordEC,
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                      label: Text('Confirma Senha'),
+                                    ),
+                                    validator: Validatorless.multiple(
+                                      [
+                                        Validatorless.required('Obrigatório'),
+                                        Validatorless.min(6,
+                                            'Senha deve conter pelo menos 6 caracteres'),
+                                        Validatorless.compare(_passwordEC,
+                                            'As senhas devem ser iguais')
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: context.colors.secondary,
@@ -89,7 +122,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             onPressed: () {},
                             child: Text(
-                              'Entrar',
+                              !isRegister ? 'Entrar' : 'Registrar',
                               style: context.textStyles.textPrimaryFontRegular
                                   .copyWith(
                                 fontSize: 16,
@@ -110,20 +143,21 @@ class LoginScreen extends StatelessWidget {
                   const Spacer(),
                   Text.rich(
                     TextSpan(
-                      text: 'Não possui uma conta? ',
+                      text: 'Possui uma conta? ',
                       style: context.textStyles.textPrimaryFontMedium.copyWith(
                         color: context.colors.grey,
                       ),
                       children: [
                         TextSpan(
-                          text: 'Cadastre-se',
+                          text: !isRegister ? 'Cadastre-se' : 'Entrar',
                           style:
                               context.textStyles.textPrimaryFontMedium.copyWith(
                             color: context.colors.secondary,
                           ),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () =>
-                                Navigator.of(context).pushNamed('/signup'),
+                            ..onTap = () => setState(() {
+                                  isRegister = !isRegister;
+                                }),
                         ),
                       ],
                     ),
