@@ -108,19 +108,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                 fontSize: 16,
                               ),
                             ),
-                            onPressed: () {
-                              if (isRegister) {
-                                _auth.register(_emailEC.text, _passwordEC.text);
-                                setState(() {
-                                  isRegister = false;
-                                });
-                              } else {
-                                _auth.login(_emailEC.text, _passwordEC.text);
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/home',
-                                  (route) => false,
-                                );
-                              }
+                            onPressed: () async {
+                              await _handlerLoginOrRegisterButton(context);
                             },
                           ),
                         ],
@@ -163,5 +152,63 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _handlerLoginOrRegisterButton(BuildContext context) async {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (isValid) {
+      final email = _emailEC.text;
+      final password = _passwordEC.text;
+
+      await _registerOrLogin(email, password, context);
+    }
+  }
+
+  Future<void> _registerOrLogin(
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
+    if (isRegister) {
+      final isConnect = await _auth.register(email, password);
+
+      if (isConnect) {
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content: Text('Sucesso ao registrar'),
+            ));
+          setState(() {
+            isRegister = false;
+          });
+        }
+      }
+    } else {
+      final isConnect = await _auth.login(email, password);
+      if (isConnect) {
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content: Text('Sucesso ao logar'),
+            ));
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/home',
+              (route) => false,
+            );
+          });
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(const SnackBar(
+              content: Text('Houve um erro, por favor, tente novamente.'),
+            ));
+        }
+      }
+    }
   }
 }
