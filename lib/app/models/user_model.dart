@@ -5,12 +5,12 @@ class UserModel {
   final String? name;
   final String? lastName;
   final String? birth;
+  final String? phone;
   final String? gender;
   final String? cpf;
   final String? rg;
   final String? cep;
   final String? logradouro;
-  final String? complemento;
   final String? number;
   final String? bairro;
   final String? localidade;
@@ -22,12 +22,12 @@ class UserModel {
     this.name,
     this.lastName,
     this.birth,
+    this.phone,
     this.gender,
     this.cpf,
     this.rg,
     this.cep,
     this.logradouro,
-    this.complemento,
     this.number,
     this.bairro,
     this.localidade,
@@ -41,12 +41,12 @@ class UserModel {
       'name': name,
       'lastName': lastName,
       'birth': birth,
+      'phone': phone,
       'gender': gender,
       'cpf': cpf,
       'rg': rg,
       'cep': cep,
       'logradouro': logradouro,
-      'complemento': complemento,
       'number': number,
       'bairro': bairro,
       'localidade': localidade,
@@ -61,14 +61,13 @@ class UserModel {
       name: map['name'] != null ? map['name'] as String : null,
       lastName: map['lastName'] != null ? map['lastName'] as String : null,
       birth: map['birth'] != null ? map['birth'] as String : null,
+      phone: map['phone'] != null ? map['phone'] as String : null,
       gender: map['gender'] != null ? map['gender'] as String : null,
       cpf: map['cpf'] != null ? map['cpf'] as String : null,
       rg: map['rg'] != null ? map['rg'] as String : null,
       cep: map['cep'] != null ? map['cep'] as String : null,
       logradouro:
           map['logradouro'] != null ? map['logradouro'] as String : null,
-      complemento:
-          map['complemento'] != null ? map['complemento'] as String : null,
       number: map['number'] != null ? map['number'] as String : null,
       bairro: map['bairro'] != null ? map['bairro'] as String : null,
       localidade:
