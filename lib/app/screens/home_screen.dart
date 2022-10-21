@@ -22,7 +22,10 @@ class HomeScreen extends StatelessWidget {
                 (route) => false,
               );
             },
-            icon: const Icon(Icons.logout),
+            icon: Icon(
+              Icons.logout,
+              color: context.colors.secondary,
+            ),
           ),
         ],
       ),
