@@ -1,11 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
-
 import 'package:bemol_test/app/services/cep_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'cep_event.dart';
 part 'cep_state.dart';
