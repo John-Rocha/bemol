@@ -4,7 +4,7 @@ import 'dart:convert';
 class UserModel {
   final String? name;
   final String? lastName;
-  final String? birth;
+  final DateTime? birth;
   final String? phone;
   final String? gender;
   final String? cpf;
@@ -40,7 +40,7 @@ class UserModel {
     return <String, dynamic>{
       'name': name,
       'lastName': lastName,
-      'birth': birth,
+      'birth': birth?.millisecondsSinceEpoch,
       'phone': phone,
       'gender': gender,
       'cpf': cpf,
@@ -49,7 +49,7 @@ class UserModel {
       'logradouro': logradouro,
       'number': number,
       'bairro': bairro,
-      'cidade': localidade,
+      'localidade': localidade,
       'uf': uf,
       'email': email,
       'password': password,
@@ -60,7 +60,9 @@ class UserModel {
     return UserModel(
       name: map['name'] != null ? map['name'] as String : null,
       lastName: map['lastName'] != null ? map['lastName'] as String : null,
-      birth: map['birth'] != null ? map['birth'] as String : null,
+      birth: map['birth'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['birth'] as int)
+          : null,
       phone: map['phone'] != null ? map['phone'] as String : null,
       gender: map['gender'] != null ? map['gender'] as String : null,
       cpf: map['cpf'] != null ? map['cpf'] as String : null,
@@ -70,7 +72,8 @@ class UserModel {
           map['logradouro'] != null ? map['logradouro'] as String : null,
       number: map['number'] != null ? map['number'] as String : null,
       bairro: map['bairro'] != null ? map['bairro'] as String : null,
-      localidade: map['cidade'] != null ? map['cidade'] as String : null,
+      localidade:
+          map['localidade'] != null ? map['localidade'] as String : null,
       uf: map['uf'] != null ? map['uf'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       password: map['password'] != null ? map['password'] as String : null,
