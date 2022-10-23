@@ -4,7 +4,9 @@ import 'package:bemol_test/app/core/ui/styles/text_styles.dart';
 import 'package:bemol_test/app/core/utils/input_formatter.dart';
 import 'package:bemol_test/app/models/user_model.dart';
 import 'package:bemol_test/app/services/cep_service.dart';
+import 'package:bemol_test/app/services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:validatorless/validatorless.dart';
 
 class FormScreen extends StatefulWidget {
@@ -35,8 +37,8 @@ class _FormScreenState extends State<FormScreen> {
   final _localidadeEC = TextEditingController();
   final _ufEC = TextEditingController();
 
-  final user = UserModel();
   final cepService = CepService.instance;
+  final dbService = DatabaseService.instance;
 
   List<String> genres = ['Sexo', 'Homem', 'Mulher', 'Trans', 'Outro'];
 
@@ -68,12 +70,7 @@ class _FormScreenState extends State<FormScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: context.colors.secondary,
                   ),
-                  onPressed: () {
-                    final isValid = _formKey.currentState?.validate() ?? false;
-                    if (!isValid) {
-                      return;
-                    }
-                  },
+                  onPressed: () async => _saveForm(context),
                   child: const Text('Enviar'),
                 ),
               ],
@@ -82,6 +79,48 @@ class _FormScreenState extends State<FormScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _saveForm(BuildContext context) async {
+    {
+      final isValid = _formKey.currentState?.validate() ?? false;
+      final userModel = UserModel(
+        name: _nameEC.text,
+        lastName: _lastNameEC.text,
+        birth: _convertBithToDateTime(_birthEC.text),
+        gender: _genderValue,
+        cpf: _cpfEC.text,
+        rg: _rgEC.text,
+        email: _emailEC.text,
+        phone: _phoneEC.text,
+        cep: _cepEC.text,
+        logradouro: _logradouroEC.text,
+        number: _numeroEC.text,
+        bairro: _bairroEC.text,
+        localidade: _localidadeEC.text,
+        uf: _ufEC.text,
+      );
+      if (isValid) {
+        final userSaved = await dbService.addUser(userModel);
+        if (userSaved && mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Sucesso ao salvar o usuário!'),
+          ));
+
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacementNamed('/home');
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Houve um erro, por favor, tente novamente.'),
+          ));
+        }
+      }
+    }
+  }
+
+  DateTime _convertBithToDateTime(String birthDate) {
+    return DateFormat('d/M/y').parse(birthDate);
   }
 
   Widget _personData() {
@@ -187,7 +226,7 @@ class _FormScreenState extends State<FormScreen> {
                 controller: _emailEC,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
-                  labelText: 'Email',
+                  labelText: 'E-mail',
                 ),
                 validator: Validatorless.multiple([
                   Validatorless.required('Obrigatório'),
@@ -251,8 +290,7 @@ class _FormScreenState extends State<FormScreen> {
                 backgroundColor: context.colors.secondary,
               ),
               onPressed: () async {
-                user.cep = _cepEC.text;
-                final result = await cepService.getAddress(user.cep!);
+                final result = await cepService.getAddress(_cepEC.text);
                 setState(() {
                   _logradouroEC.text = result['logradouro'];
                   _bairroEC.text = result['bairro'];
