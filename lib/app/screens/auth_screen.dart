@@ -121,31 +121,35 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
             SliverFillRemaining(
               hasScrollBody: false,
-              child: Column(
-                children: [
-                  const Spacer(),
-                  Text.rich(
-                    TextSpan(
-                      text: 'Possui uma conta? ',
-                      style: context.textStyles.textPrimaryFontMedium.copyWith(
-                        color: context.colors.grey,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: !isRegister ? 'Cadastre-se' : 'Entrar',
-                          style:
-                              context.textStyles.textPrimaryFontMedium.copyWith(
-                            color: context.colors.secondary,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => setState(() {
-                                  isRegister = !isRegister;
-                                }),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Column(
+                  children: [
+                    const Spacer(),
+                    Text.rich(
+                      TextSpan(
+                        text: 'Possui uma conta? ',
+                        style:
+                            context.textStyles.textPrimaryFontMedium.copyWith(
+                          color: context.colors.grey,
                         ),
-                      ],
+                        children: [
+                          TextSpan(
+                            text: !isRegister ? 'Cadastre-se' : 'Entrar',
+                            style: context.textStyles.textPrimaryFontMedium
+                                .copyWith(
+                              color: context.colors.secondary,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => setState(() {
+                                    isRegister = !isRegister;
+                                  }),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

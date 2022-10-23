@@ -2,9 +2,14 @@ import 'package:bemol_test/app/core/ui/styles/colors_app.dart';
 import 'package:bemol_test/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final _auth = AuthService.instance;
 
   @override
@@ -15,12 +20,14 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Home'),
         actions: [
           IconButton(
-            onPressed: () {
-              _auth.logout();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                '/',
-                (route) => false,
-              );
+            onPressed: () async {
+              await _auth.logout();
+              if (mounted) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/',
+                  (route) => false,
+                );
+              }
             },
             icon: Icon(
               Icons.logout,

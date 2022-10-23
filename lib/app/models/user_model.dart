@@ -9,12 +9,12 @@ class UserModel {
   final String? gender;
   final String? cpf;
   final String? rg;
-  final String? cep;
-  final String? logradouro;
-  final String? number;
-  final String? bairro;
-  final String? localidade;
-  final String? uf;
+  String? cep;
+  String? logradouro;
+  String? number;
+  String? bairro;
+  String? localidade;
+  String? uf;
   final String? email;
   final String? password;
 
@@ -49,7 +49,7 @@ class UserModel {
       'logradouro': logradouro,
       'number': number,
       'bairro': bairro,
-      'localidade': localidade,
+      'cidade': localidade,
       'uf': uf,
       'email': email,
       'password': password,
@@ -70,8 +70,7 @@ class UserModel {
           map['logradouro'] != null ? map['logradouro'] as String : null,
       number: map['number'] != null ? map['number'] as String : null,
       bairro: map['bairro'] != null ? map['bairro'] as String : null,
-      localidade:
-          map['localidade'] != null ? map['localidade'] as String : null,
+      localidade: map['cidade'] != null ? map['cidade'] as String : null,
       uf: map['uf'] != null ? map['uf'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       password: map['password'] != null ? map['password'] as String : null,

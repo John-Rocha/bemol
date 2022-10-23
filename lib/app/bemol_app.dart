@@ -13,7 +13,7 @@ class BemolApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider(create: (context) => CepService()),
+        Provider(create: (context) => CepService.instance),
         BlocProvider(
           create: (context) => CepBloc(
             context.read<CepService>(),
