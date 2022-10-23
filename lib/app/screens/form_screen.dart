@@ -2,6 +2,8 @@
 import 'package:bemol_test/app/core/ui/styles/colors_app.dart';
 import 'package:bemol_test/app/core/ui/styles/text_styles.dart';
 import 'package:bemol_test/app/core/utils/input_formatter.dart';
+import 'package:bemol_test/app/models/user_model.dart';
+import 'package:bemol_test/app/services/cep_service.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -28,10 +30,13 @@ class _FormScreenState extends State<FormScreen> {
   // Address controllers
   final _cepEC = TextEditingController();
   final _logradouroEC = TextEditingController();
-  final _numberEC = TextEditingController();
+  final _numeroEC = TextEditingController();
   final _bairroEC = TextEditingController();
-  final _cidadeEC = TextEditingController();
-  final _estadoEC = TextEditingController();
+  final _localidadeEC = TextEditingController();
+  final _ufEC = TextEditingController();
+
+  final user = UserModel();
+  final cepService = CepService.instance;
 
   List<String> genres = ['Sexo', 'Homem', 'Mulher', 'Trans', 'Outro'];
 
@@ -98,6 +103,7 @@ class _FormScreenState extends State<FormScreen> {
             Expanded(
               child: TextFormField(
                 controller: _nameEC,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'Nome',
@@ -109,6 +115,7 @@ class _FormScreenState extends State<FormScreen> {
             Expanded(
               child: TextFormField(
                 controller: _lastNameEC,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'Sobrenome',
@@ -123,6 +130,7 @@ class _FormScreenState extends State<FormScreen> {
           children: [
             Expanded(
               child: TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _birthEC,
                 inputFormatters: [
                   InputFormatter.instance.birthDateFormatter,
@@ -145,6 +153,7 @@ class _FormScreenState extends State<FormScreen> {
           children: [
             Expanded(
               child: TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _cpfEC,
                 inputFormatters: [
                   InputFormatter.instance.cpfFormatter,
@@ -174,6 +183,7 @@ class _FormScreenState extends State<FormScreen> {
           children: [
             Expanded(
               child: TextFormField(
+                keyboardType: TextInputType.emailAddress,
                 controller: _emailEC,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -188,6 +198,7 @@ class _FormScreenState extends State<FormScreen> {
             const SizedBox(width: 10),
             Expanded(
               child: TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _phoneEC,
                 inputFormatters: [
                   InputFormatter.instance.phoneFormatter,
@@ -226,6 +237,7 @@ class _FormScreenState extends State<FormScreen> {
                   InputFormatter.instance.cepFormatter,
                 ],
                 controller: _cepEC,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'CEP',
@@ -238,7 +250,16 @@ class _FormScreenState extends State<FormScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.colors.secondary,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                user.cep = _cepEC.text;
+                final result = await cepService.getAddress(user.cep!);
+                setState(() {
+                  _logradouroEC.text = result['logradouro'];
+                  _bairroEC.text = result['bairro'];
+                  _localidadeEC.text = result['localidade'];
+                  _ufEC.text = result['uf'];
+                });
+              },
               child: const Text('Buscar'),
             )
           ],
@@ -257,7 +278,8 @@ class _FormScreenState extends State<FormScreen> {
           children: [
             Expanded(
               child: TextFormField(
-                controller: _numberEC,
+                keyboardType: TextInputType.number,
+                controller: _numeroEC,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'Número',
@@ -283,7 +305,7 @@ class _FormScreenState extends State<FormScreen> {
           children: [
             Expanded(
               child: TextFormField(
-                controller: _cidadeEC,
+                controller: _localidadeEC,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'Cidade',
@@ -294,7 +316,7 @@ class _FormScreenState extends State<FormScreen> {
             const SizedBox(width: 10),
             Expanded(
               child: TextFormField(
-                controller: _estadoEC,
+                controller: _ufEC,
                 decoration: const InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   labelText: 'Estado',
