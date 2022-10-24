@@ -1,7 +1,5 @@
 import 'package:bemol_test/app/core/ui/styles/colors_app.dart';
-import 'package:bemol_test/app/models/user_model.dart';
 import 'package:bemol_test/app/services/auth_service.dart';
-import 'package:bemol_test/app/services/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
