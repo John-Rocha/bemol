@@ -1,16 +1,36 @@
-# bemol_test
+# Bemol App
 
-A new Flutter project.
+Aplicativo para unificar leading cadastral de usuários
 
-## Getting Started
+## Plataforma desenvolvida
+* O aplicativo foi desenvolvido para Android;
 
-This project is a starting point for a Flutter application.
+## Configurando o ambiente do projeto
+### Requisitos de configuração:
+- Versão do Flutter 3.3.2
+- Versão do Dart 2.18.1
+- minSdkVersion 19
+- multiDexEnabled true
 
-A few resources to get you started if this is your first Flutter project:
+### Configuração do repositório
+- Clonar repositório `git clone git@github.com:John-Rocha/bemol.git`
+- Navegar até o projeto `cd /bemol`
+- Baixar as dependências `flutter pub get`
+- Rodar o projeto `flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Banco de dados
+O banco de dados escolhido foi o Firebase Firestore, por se tratar de um ambiente de teste mais dinamizado e de menor impacto no tempo de elaboração. Seu formato de consumo é em JSON no qual é transformado para objeto Dart.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Packages utilizados com suas versões
+- mask_text_input_formatter: ^2.4.0
+- cpf_cnpj_validator: ^2.0.0
+- intl: ^0.17.0
+- dio: ^4.0.6
+- firebase_core: ^2.0.0
+- firebase_auth: ^4.0.1
+- cloud_firestore: ^4.0.1
+- validatorless: ^1.2.
+
+### Informações do desenvolvedor
+email: johnathanrocha@gmail.com
+whatsapp: (48) 99610-7270
